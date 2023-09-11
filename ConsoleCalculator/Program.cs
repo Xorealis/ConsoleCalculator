@@ -17,6 +17,11 @@ namespace HelloWorld
                     result = val1 - val2;
                     break;
                 case "/":
+                    if(val2 == 0)
+                    {
+                        Console.WriteLine("Cannot divide by 0");
+                        break;
+                    }
                     result = val1 / val2;
                     break;
                 case "*":
@@ -39,42 +44,62 @@ namespace HelloWorld
             string firstVal = "";
             string secondVal = "";
             string input = "";
-            double output = 0;
-            double temp = 0;
+            double output = double.NaN;
+            int temp = 0;
             int charCount = 0;
             while (true)
             {
                 Console.WriteLine("~~~~Console Calculator~~~~");
-                Console.Write("Please enter an equation in the format # operand #: ");
+                Console.Write("Please enter an equation in the format # operand #, or Q to quit: ");
                 input = Console.ReadLine();
                 charCount = 0;
                 firstVal = "";
                 secondVal = "";
                 operand = "";
+                output = double.NaN;
 
-                    while(charCount < input.Length)
-                    {
+                if(input == "q" || input == "Q")
+                {
+                    return;
+                }
+                while (charCount < input.Length)
+                {
                     if (input[charCount] == ' ')
                     {
                         charCount++;
                         break;
                     }
-                        firstVal += input[charCount];
-                        charCount++;
+                    else if (!(int.TryParse(input[charCount].ToString(), out temp)))
+                    {
+                        if (!(input[charCount] == '.'))
+                        {
+                            break;
+                        }
                     }
-                Console.WriteLine(firstVal);
+                    firstVal += input[charCount];
+                    charCount++;
+                }
 
                 operand += input[charCount];
-                charCount++;
+                if (input[charCount + 1] == ' ')
+                {
+                    charCount++;
+                }
 
                 while (charCount < input.Length)
                 {
                     secondVal += input[charCount];
                     charCount++;
                 }
-
-                output = Calculator.compute(double.Parse(firstVal), double.Parse(secondVal), operand);
-                Console.WriteLine(firstVal + " " + operand + " " + secondVal + " = " + output.ToString());
+                try
+                {
+                    output = Calculator.compute(double.Parse(firstVal), double.Parse(secondVal), operand);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An invalid value was entered");
+                }
+                Console.WriteLine("Answer: "+ output.ToString());
             }
            
         }
