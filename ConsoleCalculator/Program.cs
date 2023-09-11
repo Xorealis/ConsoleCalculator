@@ -49,7 +49,7 @@ namespace HelloWorld
             int charCount = 0;
             while (true)
             {
-                Console.WriteLine("~~~~Console Calculator~~~~");
+                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~Console Calculator~~~~~~~~~~~~~~~~~~~~~~~");
                 Console.Write("Please enter an equation in the format # operand #, or Q to quit: ");
                 input = Console.ReadLine();
                 charCount = 0;
@@ -81,7 +81,8 @@ namespace HelloWorld
                 }
 
                 operand += input[charCount];
-                if (input[charCount + 1] == ' ')
+                charCount++;
+                if (input[charCount] == ' ')
                 {
                     charCount++;
                 }
