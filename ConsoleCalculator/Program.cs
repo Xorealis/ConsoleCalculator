@@ -2,6 +2,35 @@
 
 namespace HelloWorld
 {
+    class Calculator
+    {
+        public static double compute(double val1, double val2, string operand)
+        {
+            double result = double.NaN;
+            Console.WriteLine("Calculating...");
+            switch(operand)
+            {
+                case "+":
+                    result = val1 + val2;
+                    break;
+                case "-":
+                    result = val1 - val2;
+                    break;
+                case "/":
+                    result = val1 / val2;
+                    break;
+                case "*":
+                    result = val1 * val2;
+                    break;
+                default:
+                    Console.WriteLine("An invalid Operand was entered");
+                    break;
+                    
+            }    
+            
+            return result;
+        }
+    }
     class Program
     {
         static void Main(string[] args)
@@ -9,81 +38,45 @@ namespace HelloWorld
             string operand = "";
             string firstVal = "";
             string secondVal = "";
-            float output = 0;
+            string input = "";
+            double output = 0;
+            double temp = 0;
+            int charCount = 0;
             while (true)
             {
                 Console.WriteLine("~~~~Console Calculator~~~~");
-                Console.Write("What are you looking to do?\n1.Addition\n2.Subtraction\n3.Multiplication\n4.Division\nQ.Quit\n");
-                bool valid = false;
-                while (!valid)
-                {
-                    Console.Write("Please enter the value associated with your desired operand:");
-                    operand = Console.ReadLine();
-                    if (operand == "1" || operand == "2" || operand == "3" || operand == "4")
+                Console.Write("Please enter an equation in the format # operand #: ");
+                input = Console.ReadLine();
+                charCount = 0;
+                firstVal = "";
+                secondVal = "";
+                operand = "";
+
+                    while(charCount < input.Length)
                     {
-                        valid = true;
-                    }
-                    else if(operand == "Q" || operand == "q")
+                    if (input[charCount] == ' ')
                     {
-                        return;
+                        charCount++;
+                        break;
                     }
-                    else
-                    {
-                        Console.WriteLine("That is not a valid operand");
+                        firstVal += input[charCount];
+                        charCount++;
                     }
-                }
-                valid = false;
-                while (!valid)
+                Console.WriteLine(firstVal);
+
+                operand += input[charCount];
+                charCount++;
+
+                while (charCount < input.Length)
                 {
-                    Console.Write("\nPlease enter your first value:");
-                    firstVal = Console.ReadLine();
-                    float temp = 0;
-                    valid = float.TryParse(firstVal, out temp);
-                    if (!valid)
-                    {
-                        Console.WriteLine("That is not a valid input");
-                    }
+                    secondVal += input[charCount];
+                    charCount++;
                 }
-                valid = false;
-                while (!valid)
-                {
-                    Console.Write("\nPlease enter your second value:");
-                    secondVal = Console.ReadLine();
-                    float temp = 0;
-                    valid = float.TryParse(secondVal, out temp);
-                    if (!valid)
-                    {
-                        Console.WriteLine("That is not a valid input");
-                    }
-                    if(operand == "4" && secondVal == "0")
-                    {
-                        valid = false;
-                        Console.WriteLine("Cannot divide by 0");
-                    }
-                }
-                Console.Write(firstVal + " ");
-                if (operand == "1")
-                {
-                    output = float.Parse(firstVal) + float.Parse(secondVal);
-                    Console.Write("+");
-                }
-                else if (operand == "2")
-                {
-                    output = float.Parse(firstVal) - float.Parse(secondVal);
-                    Console.Write("-");
-                }
-                else if (operand == "3")
-                {
-                    output = float.Parse(firstVal) * float.Parse(secondVal);
-                    Console.Write("*");
-                }
-                else
-                {
-                    output = float.Parse(firstVal) / float.Parse(secondVal);
-                    Console.Write("/");
-                }
-                Console.Write(" " + secondVal + " = " + output + "\n");
+
+                output = Calculator.compute(double.Parse(firstVal), double.Parse(secondVal), operand);
+                Console.WriteLine(firstVal + " " + operand + " " + secondVal + " = " + output.ToString());
             }
+           
         }
     }
 }
